@@ -1,4 +1,5 @@
-﻿Laboratorium I - Relacje w JPA
+﻿
+Laboratorium I - Relacje w JPA
 
 1. Zapoznaj sie ze struktura projektu - nazwy pakietow, encje, enumy. Zwroc uwage na application.properties w resources, oraz na data.sql. Zapoznaj sie z ustawieniami aplikacji (przede wszystkim jpa). W trakcie analizy dzialania programu zwroc uwage na to jak i kiedy wykorzystywany jest plik data.sql
 2. Uruchom aktualna konfiguracje 'WsbJpaApplication' badz kliknij prawym ma WsbJpaApplication i wybierz opcje RUN. Obserwuj logi konsoli, zwlaszcza logi Hibernate'a
