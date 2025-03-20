@@ -22,6 +22,10 @@ public class VisitEntity {
 	@JoinColumn(name = "DOCTOR_ID")
 	private DoctorEntity doctor;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PATIENT_ID", nullable = false)
+	private PatientEntity patient;
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VISIT_ID")
 	private Collection<MedicalTreatmentEntity> medicalTreatmentEntities;
@@ -65,4 +69,12 @@ public class VisitEntity {
 	public void setMedicalTreatmentEntities(Collection<MedicalTreatmentEntity> medicalTreatmentEntities) {
 		this.medicalTreatmentEntities = medicalTreatmentEntities;
 	}
+
+    public PatientEntity getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientEntity patient) {
+        this.patient = patient;
+    }
 }

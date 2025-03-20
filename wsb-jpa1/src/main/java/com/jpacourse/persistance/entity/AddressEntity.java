@@ -22,6 +22,11 @@ public class AddressEntity {
 	@OneToOne(mappedBy = "address")
 	private DoctorEntity doctor;
 
+
+	@OneToOne(mappedBy = "address")
+	private PatientEntity patient;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -62,4 +67,11 @@ public class AddressEntity {
 		this.postalCode = postalCode;
 	}
 
+    public PatientEntity getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientEntity patient) {
+        this.patient = patient;
+    }
 }
