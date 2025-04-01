@@ -12,16 +12,28 @@ public class PatientEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name= "firstName")
 	private String firstName;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name="lastName")
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name="telephoneNumber")
 	private String telephoneNumber;
 
+	@Column(nullable = false, name="email")
 	private String email;
+
+
+
+	@Column(nullable = false, name="patientNumber")
+	private String patientNumber;
+
+	@Column(nullable = false, name="dateOfBirth")
+	private LocalDate dateOfBirth;
+
+	@Column(name = "is_insured")
+	private Boolean isInsured;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", referencedColumnName = "id")
@@ -29,12 +41,6 @@ public class PatientEntity {
 
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<VisitEntity> visits;
-
-	@Column(nullable = false)
-	private String patientNumber;
-
-	@Column(nullable = false)
-	private LocalDate dateOfBirth;
 
 	public Long getId() {
 		return id;
