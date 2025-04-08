@@ -113,4 +113,12 @@ public class PatientEntity {
     public void setAddress(AddressEntity address) {
         this.address = address;
     }
+
+    public Boolean getInsured() {
+        return isInsured;
+    }
+
+    public void setInsured(Boolean insured) {
+        isInsured = insured;
+    }
 }
