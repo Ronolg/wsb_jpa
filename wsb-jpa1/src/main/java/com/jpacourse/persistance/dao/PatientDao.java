@@ -10,4 +10,3 @@ public interface PatientDao extends Dao<PatientEntity, Long> {
     void delete(Long id);
     void addVisit(Long patientId, Long doctorId, LocalDateTime time, String description);
 }
-

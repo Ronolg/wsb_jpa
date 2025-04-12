@@ -19,10 +19,10 @@ public class AddressDaoTest
     public void testShouldFindAddressById() {
         // given
         // when
-        AddressEntity addressEntity = addressDao.findOne(901L);
+        AddressEntity addressEntity = addressDao.findOne(902L);
         // then
         assertThat(addressEntity).isNotNull();
-        assertThat(addressEntity.getPostalCode()).isEqualTo("60-400");
+        assertThat(addressEntity.getPostalCode()).isEqualTo("60-123");
     }
 
     @Transactional

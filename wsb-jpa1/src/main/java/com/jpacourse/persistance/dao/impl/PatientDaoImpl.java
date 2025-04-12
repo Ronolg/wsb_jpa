@@ -4,6 +4,7 @@ import com.jpacourse.persistance.dao.PatientDao;
 import com.jpacourse.persistance.entity.DoctorEntity;
 import com.jpacourse.persistance.entity.PatientEntity;
 import com.jpacourse.persistance.entity.VisitEntity;
+import com.jpacourse.rest.exception.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -14,20 +15,28 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
 
     @Override
     public void addVisit(Long patientId, Long doctorId, LocalDateTime time, String description) {
-        PatientEntity patient = entityManager.find(PatientEntity.class, patientId);
-        DoctorEntity doctor = entityManager.find(DoctorEntity.class, doctorId);
+        PatientEntity patientEntity = entityManager.find(PatientEntity.class, patientId);
 
-        VisitEntity visit = new VisitEntity();
-        visit.setTime(time);
-        visit.setDescription(description);
-        visit.setDoctor(doctor);
-        visit.setPatient(patient);
-
-        if (patient.getVisits() == null) {
-            patient.setVisits(new ArrayList<>());
+        if (patientEntity == null) {
+            throw new EntityNotFoundException(patientId);
         }
 
-        patient.getVisits().add(visit);
-        entityManager.merge(patient);
+        DoctorEntity doctorEntity = entityManager.find(DoctorEntity.class, doctorId);
+
+        if (doctorEntity == null) {
+            throw new EntityNotFoundException(doctorId);
+        }
+
+        VisitEntity visitEntity = new VisitEntity();
+        visitEntity.setTime(time);
+        visitEntity.setDescription(description);
+        visitEntity.setDoctor(doctorEntity);
+        visitEntity.setPatient(patientEntity);
+
+        patientEntity.getVisits().add(visitEntity);
+        doctorEntity.getVisits().add(visitEntity);
+
+        entityManager.merge(patientEntity);
+        entityManager.merge(doctorEntity);
     }
 }

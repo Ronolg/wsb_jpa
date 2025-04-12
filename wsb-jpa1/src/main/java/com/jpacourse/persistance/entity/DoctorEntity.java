@@ -4,6 +4,7 @@ import com.jpacourse.persistance.enums.Specialization;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -39,7 +40,7 @@ public class DoctorEntity {
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DOCTOR_ID")
-	private Collection<VisitEntity> visits;
+	private Collection<VisitEntity> visits = new ArrayList<>();
 
 	public Long getId() {
 		return id;
