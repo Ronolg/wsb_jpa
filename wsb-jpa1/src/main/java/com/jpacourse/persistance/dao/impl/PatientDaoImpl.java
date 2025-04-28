@@ -5,10 +5,13 @@ import com.jpacourse.persistance.entity.DoctorEntity;
 import com.jpacourse.persistance.entity.PatientEntity;
 import com.jpacourse.persistance.entity.VisitEntity;
 import com.jpacourse.rest.exception.EntityNotFoundException;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
+import java.util.List;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
@@ -39,4 +42,29 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         entityManager.merge(patientEntity);
         entityManager.merge(doctorEntity);
     }
+    @Override
+    public List<PatientEntity> findByLastName(String lastName) {
+        TypedQuery<PatientEntity> query = entityManager.createQuery(
+                "SELECT p FROM PatientEntity p WHERE p.lastName = :lastName", PatientEntity.class);
+        query.setParameter("lastName", lastName);
+        return query.getResultList();
+    }
+
+
+
+    @Override
+    public List<PatientEntity> findPatientsWithMoreThanXVisits(long numberOfVisits) {
+        String jpql = "SELECT p FROM PatientEntity p WHERE SIZE(p.visits) > :numberOfVisits";
+        return entityManager.createQuery(jpql, PatientEntity.class)
+                .setParameter("numberOfVisits", numberOfVisits)
+                .getResultList();
+    }
+    @Override
+    public List<PatientEntity> findPatientsBornAfter(LocalDate date) {
+        String jpql = "SELECT p FROM PatientEntity p WHERE p.dateOfBirth > :date";
+        return entityManager.createQuery(jpql, PatientEntity.class)
+                .setParameter("date", date)
+                .getResultList();
+    }
+
 }

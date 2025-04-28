@@ -5,6 +5,7 @@ import com.jpacourse.persistance.entity.AddressEntity;
 import com.jpacourse.persistance.entity.DoctorEntity;
 import com.jpacourse.persistance.entity.PatientEntity;
 
+import com.jpacourse.persistance.entity.VisitEntity;
 import com.jpacourse.persistance.enums.Specialization;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -107,4 +109,40 @@ public class PatientDaoTest {
         assertThat(patient.getVisits()).isNotEmpty();
         assertThat(doctor.getVisits()).isNotEmpty();
     }
+    @Transactional
+    @Test
+    public void shouldFindPatientsByLastName() {
+        // when
+        List<PatientEntity> patients = patientDao.findByLastName("Doe");
+
+        // then
+        assertThat(patients).isNotNull();
+        assertThat(patients.size()).isEqualTo(1);
+    }
+    @Transactional
+    @Test
+    public void shouldFindPatientsWithMoreThanXVisits() {
+        // given
+        long minVisits = 0;
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsWithMoreThanXVisits(minVisits);
+
+        // then
+        assertThat(patients).isNotEmpty();
+    }
+
+    @Transactional
+    @Test
+    public void shouldFindPatientsBornAfterDate() {
+        // given
+        LocalDate date = LocalDate.of(1980, 1, 1); // zamiast 1990
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsBornAfter(date);
+
+        // then
+        assertThat(patients).isNotEmpty();
+    }
+
 }
