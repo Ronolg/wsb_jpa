@@ -145,4 +145,16 @@ public class PatientDaoTest {
         assertThat(patients).isNotEmpty();
     }
 
+    @Transactional
+    @Test
+    public void shouldFindPatientsWithEmailContainingLastName() {
+        // given
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsWithEmailContainingLastName();
+
+        // then
+        assertThat(patients).isNotEmpty();
+    }
+
 }

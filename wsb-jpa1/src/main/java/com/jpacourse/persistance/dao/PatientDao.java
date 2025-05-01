@@ -15,4 +15,5 @@ public interface PatientDao extends Dao<PatientEntity, Long> {
     List<PatientEntity> findByLastName(String lastName);
     List<PatientEntity> findPatientsWithMoreThanXVisits(long numberOfVisits);
     List<PatientEntity> findPatientsBornAfter(LocalDate date);
+    List<PatientEntity> findPatientsWithEmailContainingLastName();
 }

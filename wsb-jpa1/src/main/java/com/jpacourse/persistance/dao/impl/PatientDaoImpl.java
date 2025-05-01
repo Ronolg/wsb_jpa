@@ -51,7 +51,6 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     }
 
 
-
     @Override
     public List<PatientEntity> findPatientsWithMoreThanXVisits(long numberOfVisits) {
         String jpql = "SELECT p FROM PatientEntity p WHERE SIZE(p.visits) > :numberOfVisits";
@@ -67,4 +66,10 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
                 .getResultList();
     }
 
+    @Override
+    public List<PatientEntity> findPatientsWithEmailContainingLastName() {
+        String jpql = "SELECT p FROM PatientEntity p WHERE LOWER(p.email) LIKE CONCAT('%', LOWER(p.lastName), '%')";
+        return entityManager.createQuery(jpql, PatientEntity.class)
+                .getResultList();
+    }
 }

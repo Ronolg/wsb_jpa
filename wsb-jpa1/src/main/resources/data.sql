@@ -13,6 +13,12 @@ values (901, 'Anna', 'Nowak', '555-1234', 'anna.nowak@clinic.com', 'D45678', 'GP
 insert into visit (id, time, description, doctor_id, patient_id)
 values (2001, '2025-03-01T10:00:00', 'Wizyta kontrolna', 901, 1001);
 
+insert into visit (id, time, description, doctor_id, patient_id)
+values (2002, '2025-04-01T10:00:00', 'Zabieg', 901, 1001);
+
+insert into visit (id, time, description, doctor_id, patient_id)
+values (2003, '2025-05-01T10:00:00', 'Wizyta po zabiegu', 901, 1001);
+
 -- Zabieg
 insert into medical_treatment (id, description, type, visit_id)
 values (3001, 'Badanie USG brzucha', 'USG', 2001);
