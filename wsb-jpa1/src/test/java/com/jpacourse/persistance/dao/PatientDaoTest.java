@@ -7,9 +7,13 @@ import com.jpacourse.persistance.entity.PatientEntity;
 
 import com.jpacourse.persistance.entity.VisitEntity;
 import com.jpacourse.persistance.enums.Specialization;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -18,6 +22,7 @@ import java.util.List;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class PatientDaoTest {
@@ -155,6 +160,44 @@ public class PatientDaoTest {
 
         // then
         assertThat(patients).isNotEmpty();
+    }
+
+    @Transactional
+    @Test
+    public void shouldThrowOptimisticLockExceptionWhenConcurrentModificationOccurs() throws InterruptedException {
+        // given
+        final Long srcPatientId = 1001L;
+
+        // when
+        Runnable task1 = () -> {
+            try {
+                PatientEntity patientFromDb = patientDao.findOne(srcPatientId);
+                patientFromDb.setLastName("Kowalski");
+                patientDao.update(patientFromDb);
+            } catch (OptimisticLockingFailureException e) {
+                System.out.println("Task 1 - Concurrency conflict occurred.");
+            }
+        };
+
+        Runnable task2 = () -> {
+            try {
+                PatientEntity patientFromDb = patientDao.findOne(srcPatientId);
+                patientFromDb.setLastName("Smith");
+                patientDao.update(patientFromDb);
+            } catch (OptimisticLockingFailureException e) {
+                System.out.println("Task 2 - Concurrency conflict occurred.");
+            }
+        };
+
+        // then
+        Thread thread1 = new Thread(task1);
+        Thread thread2 = new Thread(task2);
+
+        thread1.start();
+        thread2.start();
+
+        thread1.join();
+        thread2.join();
     }
 
 }

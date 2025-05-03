@@ -44,6 +44,9 @@ public class PatientEntity {
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<VisitEntity> visits = new ArrayList<>();
 
+	@Version
+	private Integer version;
+
 	public Long getId() {
 		return id;
 	}
@@ -123,4 +126,5 @@ public class PatientEntity {
     public void setInsured(Boolean insured) {
         isInsured = insured;
     }
+
 }

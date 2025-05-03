@@ -2,8 +2,8 @@ insert into address (id, address_line1, address_line2, city, postal_code)
 values (902, 'ul. Klonowa', 'lok. 4', 'Poznań', '60-123');
 
 -- Pacjent
-insert into patient (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, is_insured, address_id)
-values (1001, 'John', 'Doe', '555-9876', 'john.doe@gmail.com', 'P12345', '1985-06-15', true, 902);
+insert into patient (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, is_insured, address_id, version)
+values (1001, 'John', 'Doe', '555-9876', 'john.doe@gmail.com', 'P12345', '1985-06-15', true, 902, 0);
 
 -- Lekarz
 insert into doctor (id, first_name, last_name, telephone_number, email, doctor_number, specialization, address_id)
