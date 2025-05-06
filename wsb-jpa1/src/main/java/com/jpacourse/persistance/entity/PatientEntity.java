@@ -1,8 +1,11 @@
 package com.jpacourse.persistance.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "PATIENT")
@@ -12,29 +15,37 @@ public class PatientEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name= "firstName")
 	private String firstName;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name="lastName")
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name="telephoneNumber")
 	private String telephoneNumber;
 
+	@Column(nullable = false, name="email")
 	private String email;
+
+	@Column(nullable = false, name="patientNumber")
+	private String patientNumber;
+
+	@Column(nullable = false, name="dateOfBirth")
+	private LocalDate dateOfBirth;
+
+	@Column(name = "is_insured")
+	private Boolean isInsured;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", referencedColumnName = "id")
 	private AddressEntity address;
 
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<VisitEntity> visits;
+	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<VisitEntity> visits = new ArrayList<>();
 
-	@Column(nullable = false)
-	private String patientNumber;
-
-	@Column(nullable = false)
-	private LocalDate dateOfBirth;
+	@Version
+	private Integer version;
 
 	public Long getId() {
 		return id;
@@ -107,4 +118,13 @@ public class PatientEntity {
     public void setAddress(AddressEntity address) {
         this.address = address;
     }
+
+    public Boolean getInsured() {
+        return isInsured;
+    }
+
+    public void setInsured(Boolean insured) {
+        isInsured = insured;
+    }
+
 }

@@ -11,12 +11,16 @@ public class AddressEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false,name="city")
 	private String city;
 
+	@Column(nullable = false,name="addressLine1")
 	private String addressLine1;
 
+	@Column(nullable = false,name="addressLine2")
 	private String addressLine2;
 
+	@Column(nullable = false,name="postalCode")
 	private String postalCode;
 
 	@OneToOne(mappedBy = "address")
